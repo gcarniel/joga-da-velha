@@ -72,3 +72,21 @@ html {
     height: 100px;
 }
 
+#pts-jogador {
+    left: 100px;
+    color: #27ae60;  
+}
+
+#pts-computador {
+    right: 100px;
+    color: #d35400;    
+}
+
+
+#pts-jogador , #pts-computador {
+    /* display: inline-block; */
+    padding-top: 10px;
+    position: absolute;
+    font-size: 2em;
+    text-align: center;
+}
