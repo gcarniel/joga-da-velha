@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Jogo da velha</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+</head>
+<body onload="desabilitarInputs()">
+    <h1 class="titulo">JOGO DA VELHA</h1>
+    <div class="botoes">
+        <input class="botao_jogar" type="button" title="Jogar" value="Jogar" onclick="jogar()">
+    </div>
+    <p class="avisos">Vamos Jogar?</p>
+    <div class="jogo">
+        <div class="linha1">
+            <input class="l1" id="1" type="text" onclick="jogador(id)">
+            <input class="l1" id="2" type="text" onclick="jogador(id)">
+            <input class="l1" id="3" type="text" onclick="jogador(id)">
+        </div>
+        <div class="linha2">
+            <input class="l2" id="4" type="text" onclick="jogador(id)">
+            <input class="l2" id="5" type="text" onclick="jogador(id)">
+            <input class="l2" id="6" type="text" onclick="jogador(id)">
+        </div>
+        <div class="linha3">
+            <input class="l3" id="7" type="text" onclick="jogador(id)">
+            <input class="l3" id="8" type="text" onclick="jogador(id)">
+            <input class="l3" id="9" type="text" onclick="jogador(id)">
+        </div>
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>

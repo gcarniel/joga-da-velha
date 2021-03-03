@@ -1,0 +1,74 @@
+html {
+    background-color: rgb(49, 46, 46);
+  }
+
+.avisos {
+    color: aquamarine;
+    font-size: 2em;
+    text-align: center;
+}
+  
+.titulo{
+      color: whitesmoke;
+      text-align: center;
+  }
+
+.jogo{
+    margin-top: 50px; 
+}
+
+.l1, .l2, .l3{    
+    height: 175px;
+    width: 175px;
+    text-align: center;
+    font-size: 3em;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) { 
+    .l1, .l2, .l3{    
+        height: 150px;
+        width: 150px;
+    }
+ }
+
+.l1:hover, .l2:hover, .l3:hover{  
+    background-color: rgb(147, 245, 248);
+}   
+
+.linha1{
+    color: whitesmoke;
+    text-align: center;
+    padding-bottom: 5px;
+}
+.linha2{
+    color: whitesmoke;
+    text-align: center;
+    padding-bottom: 5px;
+}
+.linha3{
+    color: whitesmoke;
+    text-align: center;
+}
+
+.botao_jogar{
+    display: flex;
+    height: 50px;
+    width: 75px;
+    color: black;
+    background-color: whitesmoke;
+    border: 1px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.botoes {
+    position: absolute;
+    top: 120px;
+    display: block;
+    width: 50px;
+    height: 100px;
+}
+
