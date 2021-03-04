@@ -140,21 +140,17 @@ function computador() {
     let posicao = numAleatorioGerado - 1
     let posicaoJaMarcada = conferirSeJaMarcou(posicao)
     let contador = 0
+    let campo = null
 
-    // while (posicaoJaMarcada){
-    //     numAleatorioGerado = gerarNumAleatorio()
-    //     posicao = numAleatorioGerado - 1
-    //     posicaoJaMarcada = conferirSeJaMarcou(posicao)
-    //     contador++
-    //     if(contador > 200) {
-    //         break
-    //     }
-    // }
+    // const fecharJogada = fecharJogador()
+    // const ganhar = computadorBater()
+    const fecharJogada = analisarJogadas('X')
+    const ganhar = analisarJogadas('O')
 
-    //DESENVOLVIMENTO
-    const fecharJogada = fecharJogador()
-    let campo 
-    if(fecharJogada > 0){
+    if(ganhar > 0){
+        posicao = ganhar
+        campo = document.getElementById(posicao + 1)
+    }else if(fecharJogada > 0){
         posicao = fecharJogada
         campo = document.getElementById(posicao + 1)
     }else{ 
@@ -169,9 +165,6 @@ function computador() {
         }
         campo = document.getElementById(numAleatorioGerado)
     }
-    
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', fecharJogada, posicao)
-    
     
     campo.value = "O"
 
@@ -263,31 +256,19 @@ function definirVencedor() {
         vencedor = matrizMarcados[2]
     }
 
-    // console.log('definirVencedor - Linha',vencedorLinha1,vencedorLinha2,vencedorLinha3)
-    // console.log('definirVencedor - Coluna',vencedorColuna1,vencedorColuna2,vencedorColuna3)
-    // console.log('definirVencedor - Diagonal',vencedorDiagonal1,vencedorDiagonal2)
-
-    // console.log('definirVencedor - OBJETO',{
-    //     teveVencedor: venceuNaLinha || venceuNaColuna || venceuNaDiagonal,
-    //     quemVenceu: vencedor
-    // })
-
     return {
             teveVencedor: venceuNaLinha || venceuNaColuna || venceuNaDiagonal,
             quemVenceu: vencedor
         }   
 }
 
-
-
-
-function fecharJogador() {
+function analisarJogadas (letraXouO) {
     const verificarEixo = (posicaoInicial, posicaoFinal, incremento) => {
         const arrayJogadasJogador = []
         let posicaoParaFecharJogada = -1
         for(let i = posicaoInicial; i <= posicaoFinal; i += incremento){
             const itemAtual = matrizMarcados[i]
-            if(itemAtual === 'X'){
+            if(itemAtual === letraXouO){
                 arrayJogadasJogador.push(itemAtual)
             }else if(itemAtual === '') {
                 posicaoParaFecharJogada = i
@@ -313,15 +294,4 @@ function fecharJogador() {
         return diagonaisVerificada
     }
     return -1
-    
-}
-
-//        c1  c2  c3 
-// Linha1 _0_|_1_|_2_
-// Linha2 _3_|_4_|_5_
-// Linha3  6 | 7 | 8
-
-// ANALISAR SE COMPUTADOR ESTÁ PARA BATER E ENTÃO BATER, NÃO JOGAR ALEATÓRIO.
-function computadorBater () {
-
 }
