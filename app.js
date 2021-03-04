@@ -4,9 +4,27 @@ const ordemJogar = ['X']
 
 const avisoParagraph = document.querySelector('.avisos')
 
-function verificarSeTabuleiroCompleto() {
-    console.log('       verificarSeTabuleiroCompleto', jogoEncerrado('O') || jogoEncerrado('X'))
-    return jogoEncerrado('O') || jogoEncerrado('X')
+let pontosJogador = 0 
+let pontosComputador = 0 
+
+function jogar() {
+    const vezDeJogar = quemJoga()
+    console.log('vez de quem jogar?',ordemJogar,vezDeJogar)
+    
+    limpar()
+    pintarInputs('black')
+
+    if(vezDeJogar === 'O'){
+        avisoParagraph.textContent = 'Computador irá jogar!'
+        ordemJogar.push('X')
+        setTimeout(()=>{
+            computador()
+        },200)
+        return
+    }
+    habilitarInputs()
+    avisoParagraph.textContent = 'É sua vez de jogar!'
+    ordemJogar.push('O')
 }
 
 function limpar() {
@@ -15,6 +33,16 @@ function limpar() {
         document.getElementById(`${i}`).removeAttribute('disabled')
         matrizMarcados[i-1] = ''
     }
+}
+
+function quemJoga() {
+    const tamanhoArray = ordemJogar.length
+    return ordemJogar[tamanhoArray -1]
+}
+
+function verificarSeTabuleiroCompleto() {
+    // console.log('       verificarSeTabuleiroCompleto', jogoEncerrado('O') || jogoEncerrado('X'))
+    return jogoEncerrado('O') || jogoEncerrado('X')
 }
 
 function desabilitarInputs() {
@@ -26,6 +54,12 @@ function desabilitarInputs() {
 function habilitarInputs() {
     for(let i = 1; i <= 9; i++ ) {
         document.getElementById(`${i}`).removeAttribute('disabled','')
+    }
+}
+
+function pintarInputs(cor) {
+    for(let i = 1; i <= 9; i++ ) {
+        document.getElementById(`${i}`).style.color = cor
     }
 }
 
@@ -50,7 +84,7 @@ function jogoEncerrado(letraXouO) {
     if(letraAVerificar === letraXouO){
         if(qtdMarcadoPorLetra.length === 5){
             avisoParagraph.textContent = 'Olha só, deu empate!'
-            console.log('Olha só, deu empate! XXXXXXXXXXXXXXXXXXXX')
+            pintarInputs('#f1c40f') //amarelo 
             return true
         }
     }
@@ -159,6 +193,9 @@ function computador() {
 
 function encerrarJogo() {
     const { teveVencedor, quemVenceu } = definirVencedor()
+
+    const setarPontosJogador = document.querySelector('#pts-jogador').querySelector('p')
+    const setarPontosComputador = document.querySelector('#pts-computador').querySelector('p')
     
     desabilitarInputs()
     
@@ -166,9 +203,16 @@ function encerrarJogo() {
         let mensagemVencedor = ''
         if(quemVenceu === 'X'){
             mensagemVencedor = 'Parabéns, você venceu!'
+            pintarInputs('#27ae60') //verde
+            pontosJogador++
+            setarPontosJogador.textContent = pontosJogador
         }else {
             mensagemVencedor = 'Poxa, você perdeu!'
+            pintarInputs('#d35400') // laranja
+            pontosComputador++
+            setarPontosComputador.textContent = pontosComputador
         }
+        scrollTo(0,0)
         avisoParagraph.textContent = mensagemVencedor
         return true
     }
@@ -235,33 +279,7 @@ function definirVencedor() {
 }
 
 
-function quemJoga() {
-    const tamanhoArray = ordemJogar.length
-    return ordemJogar[tamanhoArray -1]
-}
 
-function jogar() {
-    const vezDeJogar = quemJoga()
-    console.log('vez de quem jogar?',ordemJogar,vezDeJogar)
-    
-    limpar()
-    
-    if(vezDeJogar === 'O'){
-        avisoParagraph.textContent = 'Computador irá jogar!'
-        ordemJogar.push('X')
-        setTimeout(()=>{
-            computador()
-        },500)
-        return
-    }
-    habilitarInputs()
-    avisoParagraph.textContent = 'É sua vez de jogar!'
-    ordemJogar.push('O')
-}
- 
-// somar vitorias do jogador
-
-// somar vitorias do computador
 
 function fecharJogador() {
     const verificarEixo = (posicaoInicial, posicaoFinal, incremento) => {
@@ -297,13 +315,11 @@ function fecharJogador() {
     return -1
     
 }
-    //        c1  c2  c3 
-    // Linha1 _0_|_1_|_2_
-    // Linha2 _3_|_4_|_5_
-    // Linha3  6 | 7 | 8
 
-
-
+//        c1  c2  c3 
+// Linha1 _0_|_1_|_2_
+// Linha2 _3_|_4_|_5_
+// Linha3  6 | 7 | 8
 
 // ANALISAR SE COMPUTADOR ESTÁ PARA BATER E ENTÃO BATER, NÃO JOGAR ALEATÓRIO.
 function computadorBater () {
