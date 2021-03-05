@@ -165,18 +165,18 @@ function computador() {
         campo = document.getElementById(posicao + 1)
     }else{ 
         proximaJogadaComputador(ultimaPosicaoJogadoComputador)
-        console.log('###', matrizMarcados,proximaJogada)
-        console.log('ultimaPosicaoJogadoComputador', ultimaPosicaoJogadoComputador)
+        // console.log('###', matrizMarcados,proximaJogada)
+        // console.log('ultimaPosicaoJogadoComputador', ultimaPosicaoJogadoComputador)
         let possivelMarcacao = proximaJogada.includes(posicao)
         while (posicaoJaMarcada || (possivelMarcacao === false && controlarMarcacoes < 5)){
-            console.log('Era minha vez:', posicao)
+            // console.log('Era minha vez:', posicao)
             numAleatorioGerado = gerarNumAleatorio()
             posicao = numAleatorioGerado - 1
             possivelMarcacao = proximaJogada.includes(posicao)
             posicaoJaMarcada = conferirSeJaMarcou(posicao)
             contador++
             if(contador > 1500) {
-                console.log('ufa')
+                // console.log('ufa')
                 break
             }
         }
@@ -242,12 +242,11 @@ function proximaJogadaComputador(ultimaPosicaoMarcada) {
         
     posicoesPossiveis.forEach((pos) => {
         const temAlgoMarcado = matrizMarcados[pos].includes('X') || matrizMarcados[pos].includes('O')
-        // console.log('proximaJogadaComputador', matrizMarcados,temAlgoMarcado)
+
         if (!conferirSeJaMarcou(pos) && !temAlgoMarcado) {
             proximaJogada.push(pos)
         }
     })
-    // console.log('proximaJogadaComputador', proximaJogada)
 
 }
 
@@ -344,7 +343,7 @@ function analisarJogadas (letraXouO) {
     const linhasVerificada = verificarEixo(0,2,1) || verificarEixo(3,5,1) || verificarEixo(6,8,1)
     const colunasVerificada = verificarEixo(0,6,3) || verificarEixo(1,7,3) || verificarEixo(2,8,3)
     const diagonaisVerificada = verificarEixo(0,8,4) || verificarEixo(2,6,2)
-    console.log('VERIFICAÇÃO DA DIAGONAL 2/4/6:', diagonaisVerificada)
+
     if(linhasVerificada > 0) {
         return linhasVerificada
     }else if (colunasVerificada){
