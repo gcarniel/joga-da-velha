@@ -1,15 +1,21 @@
 const matrizMarcados = ['','','','','','','','','']
-
 const ordemJogar = ['X']
+
+let proximaJogada = [0,1,2,3,4,5,6,7,8]
+let controlarMarcacoes = 0
 
 const avisoParagraph = document.querySelector('.avisos')
 
 let pontosJogador = 0 
 let pontosComputador = 0 
+let ultimaPosicaoJogadoComputador = -1
 
 function jogar() {
     const vezDeJogar = quemJoga()
-    console.log('vez de quem jogar?',ordemJogar,vezDeJogar)
+
+    proximaJogada = [0,1,2,3,4,5,6,7,8]
+
+    controlarMarcacoes = 0
     
     limpar()
     pintarInputs('black')
@@ -41,7 +47,6 @@ function quemJoga() {
 }
 
 function verificarSeTabuleiroCompleto() {
-    // console.log('       verificarSeTabuleiroCompleto', jogoEncerrado('O') || jogoEncerrado('X'))
     return jogoEncerrado('O') || jogoEncerrado('X')
 }
 
@@ -76,11 +81,9 @@ function gerarNumAleatorio() {
 
 function jogoEncerrado(letraXouO) {
     const letraAVerificar = letraXouO
-    const vezDeJogar = quemJoga()
 
     const qtdMarcadoPorLetra =  matrizMarcados.filter(item => item === letraAVerificar )
 
-    console.log('jogoEncerrado:',letraXouO, letraAVerificar,qtdMarcadoPorLetra.length, qtdMarcadoPorLetra)
     if(letraAVerificar === letraXouO){
         if(qtdMarcadoPorLetra.length === 5){
             avisoParagraph.textContent = 'Olha só, deu empate!'
@@ -93,11 +96,10 @@ function jogoEncerrado(letraXouO) {
 
 function adicionarJogada(posicao, letra) {
     matrizMarcados[posicao] = letra
-    console.log('adicionarJogada:', matrizMarcados)
+    // console.log('adicionarJogada:', matrizMarcados)
 }
 
 function conferirSeJaMarcou(posicao) {
-    console.log('conferirSeJaMarcou:',matrizMarcados[posicao] !== '')
     return matrizMarcados[posicao] !== ''
 }
 
@@ -113,9 +115,10 @@ function jogador(id) {
     campo.value = 'X'
     
     adicionarJogada(posicao, 'X')
+
+    controlarMarcacoes++
     
     avisoParagraph.textContent = 'Computador irá jogar!'
-    
     
     if(encerrarJogo()){
         return true
@@ -132,7 +135,6 @@ function jogador(id) {
             computador()
         }
     }, 1000);
-
 }
 
 function computador() {
@@ -142,24 +144,39 @@ function computador() {
     let contador = 0
     let campo = null
 
-    // const fecharJogada = fecharJogador()
-    // const ganhar = computadorBater()
     const fecharJogada = analisarJogadas('X')
     const ganhar = analisarJogadas('O')
 
-    if(ganhar > 0){
+    if (controlarMarcacoes === 0){
+        const primeiraJogadaComputador = [0,2,4,6,8]
+        if(!primeiraJogadaComputador.includes(posicao)){
+            numAleatorioGerado = gerarNumAleatorio()
+            posicao = numAleatorioGerado - 1
+        }
+        campo = document.getElementById(posicao + 1)
+    }else if (controlarMarcacoes === 1 && pegarPrimeiraJogadaJogador()){
+        posicao = 4
+        campo = document.getElementById(posicao + 1)
+    }else if(ganhar > 0){
         posicao = ganhar
         campo = document.getElementById(posicao + 1)
     }else if(fecharJogada > 0){
         posicao = fecharJogada
         campo = document.getElementById(posicao + 1)
     }else{ 
-        while (posicaoJaMarcada){
+        proximaJogadaComputador(ultimaPosicaoJogadoComputador)
+        console.log('###', matrizMarcados,proximaJogada)
+        console.log('ultimaPosicaoJogadoComputador', ultimaPosicaoJogadoComputador)
+        let possivelMarcacao = proximaJogada.includes(posicao)
+        while (posicaoJaMarcada || (possivelMarcacao === false && controlarMarcacoes < 5)){
+            console.log('Era minha vez:', posicao)
             numAleatorioGerado = gerarNumAleatorio()
             posicao = numAleatorioGerado - 1
+            possivelMarcacao = proximaJogada.includes(posicao)
             posicaoJaMarcada = conferirSeJaMarcou(posicao)
             contador++
-            if(contador > 200) {
+            if(contador > 1500) {
+                console.log('ufa')
                 break
             }
         }
@@ -168,7 +185,13 @@ function computador() {
     
     campo.value = "O"
 
+    ultimaPosicaoJogadoComputador = posicao
+
     adicionarJogada(posicao, 'O')
+
+    controlarMarcacoes++
+    
+    // proximaJogadaComputador(posicao)
 
     avisoParagraph.textContent = 'É sua vez de jogar!'
 
@@ -181,6 +204,50 @@ function computador() {
     }
 
     habilitarInputs()
+}
+
+function proximaJogadaComputador(ultimaPosicaoMarcada) {
+    let posicoesPossiveis = []
+    proximaJogada = []
+
+    switch (ultimaPosicaoMarcada) {
+        case 0:
+            posicoesPossiveis = [1,2,3,4,6,8]
+            break
+        case 1:
+            posicoesPossiveis = [0,2,4,7]
+            break
+        case 2:
+            posicoesPossiveis = [0,1,4,5,6,8]
+            break
+        case 3:
+            posicoesPossiveis = [0,4,5,6]
+            break
+        case 4:
+            posicoesPossiveis = [0,1,2,3,5,6,7,8]
+            break
+        case 5:
+            posicoesPossiveis = [2,3,4,8]
+            break
+        case 6:
+            posicoesPossiveis = [0,2,3,4,7,8]
+            break     
+        case 7:
+            posicoesPossiveis = [1,4,6,8]
+            break  
+        case 8:
+            posicoesPossiveis = [0,1,2,4,6,7]
+            break  
+    }
+        
+    posicoesPossiveis.forEach((pos) => {
+        const temAlgoMarcado = matrizMarcados[pos].includes('X') || matrizMarcados[pos].includes('O')
+        // console.log('proximaJogadaComputador', matrizMarcados,temAlgoMarcado)
+        if (!conferirSeJaMarcou(pos) && !temAlgoMarcado) {
+            proximaJogada.push(pos)
+        }
+    })
+    // console.log('proximaJogadaComputador', proximaJogada)
 
 }
 
@@ -200,7 +267,7 @@ function encerrarJogo() {
             pontosJogador++
             setarPontosJogador.textContent = pontosJogador
         }else {
-            mensagemVencedor = 'Poxa, você perdeu!'
+            mensagemVencedor = 'Poxa, você perdeu. Tente de novo!'
             pintarInputs('#d35400') // laranja
             pontosComputador++
             setarPontosComputador.textContent = pontosComputador
@@ -215,11 +282,6 @@ function encerrarJogo() {
 
 
 function definirVencedor() {
-
-    //        c1  c2  c3 
-    // Linha1 _0_|_1_|_2_
-    // Linha2 _3_|_4_|_5_
-    // Linha3  6 | 7 | 8
 
     const vencedorLinha1 = matrizMarcados[0] !== '' ? (matrizMarcados[0] === matrizMarcados[1]) && (matrizMarcados[1] === matrizMarcados[2]) : false
     const vencedorLinha2 = matrizMarcados[3] !== '' ? (matrizMarcados[3] === matrizMarcados[4]) && (matrizMarcados[4] === matrizMarcados[5]) : false
@@ -275,7 +337,6 @@ function analisarJogadas (letraXouO) {
             }
         }
         if(arrayJogadasJogador.length > 1){
-            console.log('DIAGONAIS ->>>> fecharJogador:', arrayJogadasJogador, posicaoParaFecharJogada)
             return posicaoParaFecharJogada
         }
     }
@@ -283,9 +344,7 @@ function analisarJogadas (letraXouO) {
     const linhasVerificada = verificarEixo(0,2,1) || verificarEixo(3,5,1) || verificarEixo(6,8,1)
     const colunasVerificada = verificarEixo(0,6,3) || verificarEixo(1,7,3) || verificarEixo(2,8,3)
     const diagonaisVerificada = verificarEixo(0,8,4) || verificarEixo(2,6,2)
-
-    console.log(linhasVerificada,colunasVerificada)
-
+    console.log('VERIFICAÇÃO DA DIAGONAL 2/4/6:', diagonaisVerificada)
     if(linhasVerificada > 0) {
         return linhasVerificada
     }else if (colunasVerificada){
@@ -294,4 +353,8 @@ function analisarJogadas (letraXouO) {
         return diagonaisVerificada
     }
     return -1
+}
+
+function pegarPrimeiraJogadaJogador() {
+    return matrizMarcados[0].includes('X') || matrizMarcados[2].includes('X') || matrizMarcados[6].includes('X') || matrizMarcados[8].includes('X')
 }
