@@ -1,6 +1,6 @@
 html {
-    background-color: rgb(49, 46, 46);
-  }
+    background-color: #312e2e;
+}
 
 .avisos {
     color: aquamarine;
@@ -16,14 +16,6 @@ html {
 
 .jogo{
     margin-top: 10px; 
-}
-
-.l1, .l2, .l3{    
-    height: 175px;
-    width: 175px;
-    text-align: center;
-    font-size: 3em;
-    cursor: pointer;
 }
 
 @media (max-width: 600px) { 
@@ -44,19 +36,23 @@ html {
     background-color: rgb(147, 245, 248);
 }   
 
-.linha1{
-    color: whitesmoke;
-    text-align: center;
-    padding-bottom: 5px;
+.l1, .l2, .l3{    
+    height: 175px;
+    width: 175px;
+    font-size: 3em;
+    cursor: pointer;
+    background-color: #474747;
+    border: 2px solid black;
+    margin: 0;
+    padding: 60px;
+    box-sizing: border-box;
 }
-.linha2{
-    color: whitesmoke;
+
+.linha1, .linha2, .linha3{   
     text-align: center;
-    padding-bottom: 5px;
-}
-.linha3{
-    color: whitesmoke;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .botao_jogar{
@@ -69,8 +65,6 @@ html {
     border: 1px;
     border-radius: 5px;
     margin-bottom: 10px;
-    justify-content: center;
-    justify-self: center;
     cursor: pointer;
 }
 
@@ -108,3 +102,5 @@ html {
         top: 100%;
     }
  }
+
+ 

@@ -11,7 +11,7 @@ let pontosComputador = 0
 let ultimaPosicaoJogadoComputador = -1
 
 function jogar() {
-    const vezDeJogar = quemJoga()
+    const vezDeJogar = quemComecaJogar()
 
     proximaJogada = [0,1,2,3,4,5,6,7,8]
 
@@ -35,13 +35,13 @@ function jogar() {
 
 function limpar() {
     for(let i = 1; i <= 9; i++ ) {
-        document.getElementById(`${i}`).value = ""
-        document.getElementById(`${i}`).removeAttribute('disabled')
+        document.getElementById(`${i}`).textContent = ""
+        // document.getElementById(`${i}`).removeAttribute('onclick')
         matrizMarcados[i-1] = ''
     }
 }
 
-function quemJoga() {
+function quemComecaJogar() {
     const tamanhoArray = ordemJogar.length
     return ordemJogar[tamanhoArray -1]
 }
@@ -52,13 +52,15 @@ function verificarSeTabuleiroCompleto() {
 
 function desabilitarInputs() {
     for(let i = 1; i <= 9; i++ ) {
-        document.getElementById(`${i}`).setAttribute('disabled','')
+        document.getElementById(`${i}`).removeAttribute('onclick','')
+        document.getElementById(`${i}`).style.cursor = 'auto'
     }
 }
 
 function habilitarInputs() {
     for(let i = 1; i <= 9; i++ ) {
-        document.getElementById(`${i}`).removeAttribute('disabled','')
+        document.getElementById(`${i}`).setAttribute('onclick','jogador(id)')
+        document.getElementById(`${i}`).style.cursor = 'pointer'
     }
 }
 
@@ -96,7 +98,6 @@ function jogoEncerrado(letraXouO) {
 
 function adicionarJogada(posicao, letra) {
     matrizMarcados[posicao] = letra
-    // console.log('adicionarJogada:', matrizMarcados)
 }
 
 function conferirSeJaMarcou(posicao) {
@@ -112,7 +113,7 @@ function jogador(id) {
         return
     }
     
-    campo.value = 'X'
+    campo.textContent = 'X'
     
     adicionarJogada(posicao, 'X')
 
@@ -183,7 +184,7 @@ function computador() {
         campo = document.getElementById(numAleatorioGerado)
     }
     
-    campo.value = "O"
+    campo.textContent = "O"
 
     ultimaPosicaoJogadoComputador = posicao
 
